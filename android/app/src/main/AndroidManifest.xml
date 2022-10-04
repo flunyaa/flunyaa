@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flunyaa">
+    package="icu.kaorikyan.flunyaa">
    <application
-        android:label="flunyaa"
+        android:label="Flunyaa"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

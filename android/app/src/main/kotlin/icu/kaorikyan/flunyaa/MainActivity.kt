@@ -1,4 +1,4 @@
-package com.example.flunyaa
+package icu.kaorikyan.flunyaa
 
 import io.flutter.embedding.android.FlutterActivity
 
