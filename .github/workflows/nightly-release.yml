@@ -3,7 +3,7 @@ name: Development Build and Release
 on:
   push:
     branches:
-      - "master"
+      - "main"
     #      - 'build'
     # tags:
     #   - v*
@@ -114,27 +114,27 @@ jobs:
             ${{ runner.os }}-pods-
 
       # git-crypt unlock
-      - name: Unlock secrets (MacOS)
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew install git-crypt
-          echo $GIT_CRYPT_KEY | base64 -d -o grypt.key
-          git-crypt unlock grypt.key
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.ENCODED_GIT_CRYPT }}
+      # - name: Unlock secrets (MacOS)
+      #   if: matrix.os == 'macos-latest'
+      #   run: |
+      #     brew install git-crypt
+      #     echo $GIT_CRYPT_KEY | base64 -d -o grypt.key
+      #     git-crypt unlock grypt.key
+      #   env:
+      #     GIT_CRYPT_KEY: ${{ secrets.ENCODED_GIT_CRYPT }}
 
-      - name: Unlock secrets (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        uses: sliteteam/github-action-git-crypt-unlock@1.2.0
-        env:
-          GIT_CRYPT_KEY: ${{ secrets.ENCODED_GIT_CRYPT }}
+      # - name: Unlock secrets (Linux)
+      #   if: matrix.os == 'ubuntu-latest'
+      #   uses: sliteteam/github-action-git-crypt-unlock@1.2.0
+      #   env:
+      #     GIT_CRYPT_KEY: ${{ secrets.ENCODED_GIT_CRYPT }}
 
-      - name: Unlock secrets (Windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          Invoke-WebRequest -Uri https://github.com/AGWA/git-crypt/releases/download/0.7.0/git-crypt-0.7.0-x86_64.exe -OutFile git-crypt.exe
-          echo "${{ secrets.ENCODED_GIT_CRYPT }}" | openssl base64 -d -out git-crypt.key
-          .\git-crypt.exe unlock .\git-crypt.key
+      # - name: Unlock secrets (Windows)
+      #   if: matrix.os == 'windows-latest'
+      #   run: |
+      #     Invoke-WebRequest -Uri https://github.com/AGWA/git-crypt/releases/download/0.7.0/git-crypt-0.7.0-x86_64.exe -OutFile git-crypt.exe
+      #     echo "${{ secrets.ENCODED_GIT_CRYPT }}" | openssl base64 -d -out git-crypt.key
+      #     .\git-crypt.exe unlock .\git-crypt.key
 
       # 安装证书
       - name: Install Apple Certificate

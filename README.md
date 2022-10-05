@@ -1,16 +1,13 @@
-# flunyaa
+# Flunyaa
 
-A new Flutter project.
+## 介绍
 
-## Getting Started
+基于 Flutter 开发的 [Nyaa](https://nyaa.si) 客户端，可以进行浏览、搜索、下载种子文件、通过磁链打开 Torrent 应用。
 
-This project is a starting point for a Flutter application.
+## 国际化请求 🔍
 
-A few resources to get you started if this is your first Flutter project:
+本项目将在基础功能稳定后启动界面国际化进程。
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 状态
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+开发中
