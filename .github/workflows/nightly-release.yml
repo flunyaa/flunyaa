@@ -240,8 +240,8 @@ jobs:
           path: ${{ matrix.artifact_path }}
 
   Publish_releases:
-    if: startsWith(github.ref, 'refs/tags/')
-    name: Publish releases
+    if: startsWith(github.ref, 'refs/heads/')
+    name: Publish Development Releases
     needs: Build_and_upload
     runs-on: ubuntu-latest
     steps:
@@ -267,8 +267,9 @@ jobs:
         with:
           # artifacts: "/tmp/artifacts/release-apk/*.apk,/tmp/artifacts/release-ios/*.ipa,/tmp/artifacts/release-mac/*.zip,/tmp/artifacts/release-windows/*.zip"
           artifacts: "/tmp/artifacts/release-apk/*.apk,/tmp/artifacts/release-windows/*.zip"
-          tag: ${{ github.ref_name }}
-          bodyFile: changelog/v${{ steps.get_version.outputs.version }}.md
+          # tag: ${{ github.ref_name }}
+          tag: "development"
+          # bodyFile: changelog/v${{ steps.get_version.outputs.version }}.md
           prerelease: true
           allowUpdates: true
           artifactErrorsFailBuild: true
