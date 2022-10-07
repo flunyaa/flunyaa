@@ -10,4 +10,4 @@
 
 ## 状态
 
-开发中
+开发中，构建状态：[![Development Build and Release](https://github.com/flunyaa/flunyaa/actions/workflows/nightly-release.yml/badge.svg)](https://github.com/flunyaa/flunyaa/actions/workflows/nightly-release.yml)
