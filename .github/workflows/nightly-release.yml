@@ -158,12 +158,17 @@ jobs:
 
       - name: Decode keystore
         if: matrix.target == 'android'
-        run: |
-          echo $ENCODED_KEYSTORE | base64 --decode > android/app/upload-keystore.jks
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          filename: android/app/upload-keystore.jks
+          encodedString: ${{ secrets.ENCODED_KEYSTORE }}
+        # run: |
+        #   echo $ENCODED_KEYSTORE | base64 --decode > android/app/upload-keystore.jks
         # echo "${{ secrets.ENCODED_KEYSTORE }}" > android/app/upload-keystore.jks.asc
         # gpg -d --passphrase "${{ secrets.KEY_PASSWORD }}" --batch --yes android/app/upload-keystore.jks.asc > android/app/upload-keystore.jks
-        env:
-          ENCODED_KEYSTORE: ${{ secrets.ENCODED_KEYSTORE }}
+        # env:
+        #   ENCODED_KEYSTORE: ${{ secrets.ENCODED_KEYSTORE }}
           # ENCODED_KEYSTORE_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
       # 安装 JDK
