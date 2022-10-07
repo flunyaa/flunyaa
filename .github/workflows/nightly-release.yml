@@ -159,7 +159,7 @@ jobs:
       - name: Decode keystore
         if: matrix.target == 'android'
         run: |
-          echo $ENCODED_KEYSTORE | base64 -di > android/app/keystore.jks
+          echo $ENCODED_KEYSTORE | base64 -di > android/app/upload-keystore.jks
         env:
           ENCODED_KEYSTORE: ${{ secrets.ENCODED_KEYSTORE }}
 
@@ -199,9 +199,7 @@ jobs:
         if: matrix.target == 'android'
         run: flutter build apk --release --split-per-abi
         env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          FLUNYAA_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
       # 打包 ipa
       - name: Build ipa
@@ -210,7 +208,7 @@ jobs:
           cd ios && pod update && pod install && cd ..
           flutter build ipa --export-options-plist=ExportOptions.plist
           cd build/ios/ipa/
-          mv FEhViewer.ipa FEhViewer_${{ steps.get_version.outputs.version }}.ipa
+          mv Flunyaa.ipa Flunyaa_${{ steps.get_version.outputs.version }}.ipa
 
       # 打包 mac
       - name: Build mac app
@@ -218,20 +216,20 @@ jobs:
         run: |
           cd macos && pod update && pod install && cd ..
           flutter build macos --release
-          APP_PATH=build/macos/Build/Products/Release/fehviewer.app
+          APP_PATH=build/macos/Build/Products/Release/Flunyaa.app
           cp -a $APP_PATH ./build
-          cd build && zip -qroy macos/FEhViewer_${{ steps.get_version.outputs.version }}_macos.zip fehviewer.app
+          cd build && zip -qroy macos/Flunyaa_${{ steps.get_version.outputs.version }}_macos.zip Flunyaa.app
 
       - name: Build windows
         if: matrix.target == 'windows'
         run: |
           flutter build windows --release
-          $DestDir = "build\windows\FEhViewer"
+          $DestDir = "build\windows\Flunyaa"
           $SrcDir = "build\windows\runner\Release"
           New-Item -Path $DestDir -ItemType Directory
           Copy-Item $SrcDir\* -Recurse $DestDir
           Copy-Item -Filter *.dll -Path windows\* -Destination $DestDir -Force
-          Compress-Archive $DestDir build\windows\FEhViewer_${{ steps.get_version.outputs.version }}_windows.zip
+          Compress-Archive $DestDir build\windows\Flunyaa_${{ steps.get_version.outputs.version }}_windows.zip
 
       - name: Publish Artifacts
         uses: actions/upload-artifact@v3
@@ -269,7 +267,7 @@ jobs:
           artifacts: "/tmp/artifacts/release-apk/*.apk,/tmp/artifacts/release-windows/*.zip"
           # tag: ${{ github.ref_name }}
           tag: "development"
-          # bodyFile: changelog/v${{ steps.get_version.outputs.version }}.md
+          bodyFile: changelog/v${{ steps.get_version.outputs.version }}.md
           prerelease: true
           allowUpdates: true
           artifactErrorsFailBuild: true
@@ -282,6 +280,6 @@ jobs:
       #     --header 'Content-Type: application/x-www-form-urlencoded' \
       #     -d parse_mode=markdown \
       #     -d chat_id=${{ secrets.TELEGRAM_CHANNEL_ID }} \
-      #     --data-urlencode text="[${{ github.ref_name }}](https://github.com/honjow/FEhViewer/releases/tag/${{ github.ref_name }})
+      #     --data-urlencode text="[${{ github.ref_name }}](https://github.com/honjow/Flunyaa/releases/tag/${{ github.ref_name }})
       #     $changelog" \
       #     -d disable_web_page_preview=true

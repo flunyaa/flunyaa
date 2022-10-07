@@ -21,19 +21,6 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-if (keystorePropertiesFile.exists()) {
-    keystorePropertiesFile.withReader('UTF-8') { reader ->
-        keystoreProperties.load(reader)
-    }
-}
-
-def _keyAlias = System.getenv("KEY_ALIAS") ?: keystoreProperties.getProperty("keyAlias")
-def _keyPassword = System.getenv("KEY_PASSWORD") ?: keystoreProperties.getProperty("keyPassword")
-def _storeFile = file(System.getenv("KEYSTORE") ?: keystoreProperties.getProperty("storeFile") ?: "keystore.jks")
-def _storePassword = System.getenv("KEYSTORE_PASSWORD") ?: keystoreProperties.getProperty("storePassword")
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -42,14 +29,14 @@ android {
     compileSdkVersion 33 // flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+    // compileOptions {
+    //     sourceCompatibility JavaVersion.VERSION_1_8
+    //     targetCompatibility JavaVersion.VERSION_1_8
+    // }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+    // kotlinOptions {
+    //     jvmTarget = '1.8'
+    // }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -68,20 +55,20 @@ android {
 
     signingConfigs {
         debug {
-            storeFile _storeFile
-            storePassword _storePassword
-            keyAlias _keyAlias
-            keyPassword _keyPassword
-            v1SigningEnabled true
-            v2SigningEnabled true
+            keyAlias 'flunyaaapk'
+            keyPassword "$System.env.FLUNYAA_KEY_PASSWORD"
+            storeFile file('upload-keystore.jks')
+            storePassword "$System.env.FLUNYAA_KEY_PASSWORD"
+            // v1SigningEnabled true
+            // v2SigningEnabled true
         }
         release {
-            storeFile _storeFile
-            storePassword _storePassword
-            keyAlias _keyAlias
-            keyPassword _keyPassword
-            v1SigningEnabled true
-            v2SigningEnabled true
+            keyAlias 'flunyaaapk'
+            keyPassword "$System.env.FLUNYAA_KEY_PASSWORD"
+            storeFile file('upload-keystore.jks')
+            storePassword "$System.env.FLUNYAA_KEY_PASSWORD"
+            // v1SigningEnabled true
+            // v2SigningEnabled true
         }
     }
 
@@ -108,5 +95,5 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
