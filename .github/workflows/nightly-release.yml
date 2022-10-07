@@ -159,10 +159,12 @@ jobs:
       - name: Decode keystore
         if: matrix.target == 'android'
         run: |
-          echo $ENCODED_KEYSTORE | openssl base64 -d -out android/app/upload-keystore.jks
+          echo $ENCODED_KEYSTORE > android/app/upload-keystore.jks.asc
+          gpg -d --passphrase $ENCODED_KEYSTORE_PASSWORD --batch --yes android/app/upload-keystore.jks.asc > android/app/upload-keystore.jks
         # echo $ENCODED_KEYSTORE | base64 -di > android/app/upload-keystore.jks
         env:
           ENCODED_KEYSTORE: ${{ secrets.ENCODED_KEYSTORE }}
+          ENCODED_KEYSTORE_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
       # 安装 JDK
       - name: Setup Java JDK 11 (Android)
