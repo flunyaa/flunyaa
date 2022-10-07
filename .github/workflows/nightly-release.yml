@@ -161,7 +161,7 @@ jobs:
         id: decode_keystore
         uses: timheuer/base64-to-file@v1
         with:
-          filename: android/app/upload-keystore.jks
+          fileName: 'upload-keystore.jks'
           encodedString: ${{ secrets.ENCODED_KEYSTORE }}
         # run: |
         #   echo $ENCODED_KEYSTORE | base64 --decode > android/app/upload-keystore.jks
