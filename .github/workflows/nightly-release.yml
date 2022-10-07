@@ -159,7 +159,8 @@ jobs:
       - name: Decode keystore
         if: matrix.target == 'android'
         run: |
-          echo $ENCODED_KEYSTORE | base64 -di > android/app/upload-keystore.jks
+          echo $ENCODED_KEYSTORE | openssl base64 -d -out android/app/upload-keystore.jks
+        # echo $ENCODED_KEYSTORE | base64 -di > android/app/upload-keystore.jks
         env:
           ENCODED_KEYSTORE: ${{ secrets.ENCODED_KEYSTORE }}
 
